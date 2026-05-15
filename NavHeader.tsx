@@ -281,6 +281,8 @@ const NavHeader: React.FC<NavHeaderProps> = ({
                     </div>
 
                     {hasNavItems && (
+                        <>
+                        <span className={styles.dividingLine} />
                         <nav
                             className={styles.desktopNav}
                             aria-label={resolvedLabels.menu}
@@ -311,6 +313,7 @@ const NavHeader: React.FC<NavHeaderProps> = ({
                                 })}
                             </div>
                         </nav>
+                        </>
                     )}
                 </div>
             </header>

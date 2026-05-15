@@ -29,7 +29,7 @@
     grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: center;
     overflow: hidden;
-    padding: 3px 6px;
+    padding: 3px 6px 6px;
     border-radius: 48px;
     gap: 12px;
     transform: translateY(0);
@@ -41,12 +41,14 @@
     corner-shape: unset;
     will-change: transform;
     box-sizing: border-box;
+
+    --backdrop-filter: blur(12px) saturate(1.05);
 }
 
 .blurEffect {
     position: absolute;
     inset: -10px 0 auto;
-    height: 60px;
+    height: 72px;
     width: 120vw;
     z-index: 0;
     pointer-events: none;
@@ -190,7 +192,6 @@
     border: none;
     border-radius: 999px;
     background: transparent;
-    color: color-mix(in srgb, var(--color-text) 72%, transparent);
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -203,22 +204,28 @@
     font-family: inherit;
     font-size: 15px;
     font-weight: 600;
+    color: var(--color-text);
+    opacity: 0.7;
 }
 
 .navLink:hover,
 .logotypeWrapper:hover {
     background: color-mix(in srgb, var(--color-text) 8%, transparent);
-    color: var(--color-text);
+    opacity: 1;
+    backdrop-filter: var(--backdrop-filter);
 }
 
 .navLink:active,
 .logotypeWrapper:active {
+    opacity: 0.55;
     transform: scale(0.96);
 }
 
 .navLinkActive {
     color: var(--color-text);
     background: color-mix(in srgb, var(--color-text) 10%, transparent);
+    opacity: 0.8;
+    backdrop-filter: var(--backdrop-filter);
 }
 
 .desktopLabel {
@@ -229,7 +236,7 @@
 }
 
 .desktopLabel svg {
-    max-height: 13px;
+    max-height: 12px;
 }
 
 .mobileMenu {
@@ -373,6 +380,14 @@
     color: var(--color-text);
 }
 
+.dividingLine {
+    height: 12px;
+    width: 2px;
+    border-radius: 2px;
+    background-color: var(--color-text);
+    opacity: 0.4;
+}
+
 @media (min-width: 960px) {
     .desktopNav {
         display: flex;
@@ -408,6 +423,10 @@
     .centerColumn {
         justify-content: center;
         width: 100%;
+    }
+
+    .dividingLine {
+        display: none;
     }
 }
 
