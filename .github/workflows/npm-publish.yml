@@ -48,20 +48,7 @@ jobs:
         with:
           node-version: 20
           registry-url: https://registry.npmjs.org
-          always-auth: true
-
-      - name: Check npm token
-        if: steps.version.outputs.changed == 'true'
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          if [ -z "$NODE_AUTH_TOKEN" ]; then
-            echo "Missing NPM_TOKEN GitHub Actions secret."
-            exit 1
-          fi
 
       - name: Publish package
         if: steps.version.outputs.changed == 'true'
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm publish --access public --provenance
