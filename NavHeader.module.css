@@ -22,8 +22,8 @@
 }
 
 .inner {
-    width: calc(100% - 12px);
-    max-width: calc(1200px - 12px);
+    width: calc(100% + 32px);
+    max-width: calc(1200px + 32px);
     position: relative;
     display: grid;
     grid-template-columns: auto minmax(0, 1fr) auto;
@@ -68,17 +68,6 @@
 .left {
     min-width: 40px;
     order: 3;
-}
-
-.right {
-    gap: 8px;
-}
-
-.rightSlot {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 0;
 }
 
 .centerColumn {
@@ -396,7 +385,8 @@
 
 @media (max-width: 959px) {
     .inner {
-        grid-template-columns: auto minmax(0, 1fr) auto auto;
+        display: flex;
+        width: calc(100% - 14px);
     }
 
     .slide {
@@ -417,6 +407,7 @@
 
     .centerColumn {
         justify-content: center;
+        width: 100%;
     }
 }
 

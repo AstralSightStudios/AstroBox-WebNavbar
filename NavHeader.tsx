@@ -30,7 +30,6 @@ export type NavHeaderProps = {
     showHeaderBlur?: boolean
     navItems?: NavHeaderItem[]
     leftSlot?: React.ReactNode
-    rightSlot?: React.ReactNode
     logo?: React.ReactNode
     brandName?: string
     homeHref?: string
@@ -158,7 +157,6 @@ const NavHeader: React.FC<NavHeaderProps> = ({
     showHeaderBlur = true,
     navItems = [],
     leftSlot,
-    rightSlot,
     logo,
     brandName = 'Brand',
     homeHref = '/',
@@ -314,9 +312,6 @@ const NavHeader: React.FC<NavHeaderProps> = ({
                             </div>
                         </nav>
                     )}
-                </div>
-                <div className={cx(styles.column, styles.right)}>
-                    {rightSlot && <div className={styles.rightSlot}>{rightSlot}</div>}
                 </div>
             </header>
         </div>

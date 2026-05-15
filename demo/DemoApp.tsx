@@ -19,7 +19,6 @@ const NAV_LABELS: Record<Lang, Record<string, string>> = {
             '这个页面专门用来验证通用 navbar 的桌面导航、移动抽屉、插槽扩展和激活态表现。',
         primaryAction: '查看下载态',
         secondaryAction: '查看团队态',
-        rightAction: '开始接入',
         homeTitle: '首页态',
         downloadsTitle: '下载态',
         teamTitle: '团队态',
@@ -50,7 +49,6 @@ const NAV_LABELS: Record<Lang, Record<string, string>> = {
             'This page is used to validate desktop nav visibility, mobile drawer behavior, slot customization, and active states.',
         primaryAction: 'Open Downloads State',
         secondaryAction: 'Open Team State',
-        rightAction: 'Start Integration',
         homeTitle: 'Home State',
         downloadsTitle: 'Downloads State',
         teamTitle: 'Team State',
@@ -142,11 +140,6 @@ const DemoApp: React.FC = () => {
                     >
                         <span className='demo-langLabel'>{copy.language}</span>
                         <span className='demo-langValue'>{lang.toUpperCase()}</span>
-                    </button>
-                }
-                rightSlot={
-                    <button type='button' className='demo-ctaButton'>
-                        {copy.rightAction}
                     </button>
                 }
                 navItems={navItems}
