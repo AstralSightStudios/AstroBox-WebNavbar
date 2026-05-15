@@ -1,6 +1,6 @@
 {
   "name": "@claralight-design/abweb-navbar",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A react components for AstroBox websites.",
   "scripts": {
     "dev": "vite",

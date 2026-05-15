@@ -1,13 +1,12 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useState } from 'react'
 import styles from './NavHeader.module.css'
-import { ArrowLeftIcon, DotsNineIcon, XIcon } from '@phosphor-icons/react'
+import { DotsNineIcon, XIcon } from '@phosphor-icons/react'
 import { Drawer } from 'vaul'
 import BlurEffect from 'react-progressive-blur'
 
 export type NavHeaderLabels = {
     menu: string
     close: string
-    back: string
 }
 
 export type NavHeaderItem = {
@@ -26,8 +25,6 @@ export type NavHeaderItem = {
 }
 
 export type NavHeaderProps = {
-    pageTitle?: string
-    secPageTitle?: string
     currentPath?: string
     variant?: 'default' | 'docs' | (string & {})
     showHeaderBlur?: boolean
@@ -40,17 +37,11 @@ export type NavHeaderProps = {
     logoAriaLabel?: string
     labels?: Partial<NavHeaderLabels>
     className?: string
-    scrollTransitionDistance?: number
-    onBack?: () => void
 }
-
-type HeaderState = 'home' | 'level1' | 'level2'
-type LeftState = 'slot' | 'back'
 
 const DEFAULT_LABELS: NavHeaderLabels = {
     menu: '菜单',
-    close: '关闭',
-    back: '返回'
+    close: '关闭'
 }
 
 const normalizePath = (path: string): string => {
@@ -73,40 +64,6 @@ const isMenuItemActive = (currentPath: string, itemPath: string): boolean => {
         normalizedCurrent === normalizedItem ||
         normalizedCurrent.startsWith(`${normalizedItem}/`)
     )
-}
-
-const useHeaderStates = (pageTitle?: string, secPageTitle?: string) => {
-    return useMemo<HeaderState[]>(() => {
-        if (!pageTitle && !secPageTitle) {
-            return ['home']
-        }
-
-        if (!pageTitle && secPageTitle) {
-            return ['home', 'level1']
-        }
-
-        if (pageTitle && !secPageTitle) {
-            return ['home', 'level1']
-        }
-
-        return ['level1', 'level2']
-    }, [pageTitle, secPageTitle])
-}
-
-const useLeftStates = (leftSlot?: React.ReactNode, secPageTitle?: string) => {
-    return useMemo<LeftState[]>(() => {
-        const states: LeftState[] = []
-
-        if (leftSlot) {
-            states.push('slot')
-        }
-
-        if (secPageTitle) {
-            states.push('back')
-        }
-
-        return states
-    }, [leftSlot, secPageTitle])
 }
 
 const cx = (...classNames: Array<string | false | null | undefined>) =>
@@ -196,8 +153,6 @@ const renderMobileItem = (
 }
 
 const NavHeader: React.FC<NavHeaderProps> = ({
-    pageTitle,
-    secPageTitle,
     currentPath = '/',
     variant = 'default',
     showHeaderBlur = true,
@@ -210,117 +165,12 @@ const NavHeader: React.FC<NavHeaderProps> = ({
     logoAriaLabel,
     labels,
     className,
-    scrollTransitionDistance = 72,
-    onBack
 }) => {
-    const leftTrackRef = useRef<HTMLDivElement>(null)
-    const centerTrackRef = useRef<HTMLDivElement>(null)
     const [menuOpen, setMenuOpen] = useState(false)
 
     const resolvedLabels = { ...DEFAULT_LABELS, ...labels }
-    const states = useHeaderStates(pageTitle, secPageTitle)
-    const leftStates = useLeftStates(leftSlot, secPageTitle)
-    const hasTransition = states.length > 1
     const hasNavItems = navItems.length > 0
     const resolvedLogoAriaLabel = logoAriaLabel ?? brandName
-
-    useEffect(() => {
-        if (typeof window === 'undefined') return
-
-        const leftTrack = leftTrackRef.current
-        const centerTrack = centerTrackRef.current
-        const animatableTracks = [
-            leftStates.length > 1 ? leftTrack : null,
-            states.length > 1 ? centerTrack : null
-        ].filter(Boolean) as HTMLDivElement[]
-
-        if (!animatableTracks.length) return
-
-        let slideHeight = 0
-        let centerOffset = 0
-        let leftOffset = 0
-        let rafId = 0
-        let nextProgress = 0
-        let lastProgress = -1
-
-        const refreshOffsets = () => {
-            const el =
-                centerTrack?.querySelector<HTMLElement>('[data-slide]') ??
-                leftTrack?.querySelector<HTMLElement>('[data-slide]')
-            slideHeight = el?.offsetHeight ?? 0
-            centerOffset = hasTransition ? -(states.length - 1) * slideHeight : 0
-            leftOffset =
-                leftStates.length > 1 ? -((leftStates.length - 1) * slideHeight) : 0
-        }
-
-        const applyProgress = (progress: number) => {
-            if (leftTrack && leftStates.length > 1) {
-                leftTrack.style.transform = `translate3d(0, ${leftOffset * progress}px, 0)`
-            }
-
-            if (centerTrack && hasTransition) {
-                centerTrack.style.transform = `translate3d(0, ${centerOffset * progress}px, 0)`
-            }
-        }
-
-        const queueApply = (progress: number) => {
-            nextProgress = progress
-            if (rafId) return
-
-            rafId = window.requestAnimationFrame(() => {
-                rafId = 0
-                if (nextProgress === lastProgress) return
-                lastProgress = nextProgress
-                applyProgress(nextProgress)
-            })
-        }
-
-        const syncFromScroll = () => {
-            if (!slideHeight) refreshOffsets()
-            if (!slideHeight || (!hasTransition && leftStates.length <= 1)) return
-            const progress = Math.max(
-                0,
-                Math.min(1, window.scrollY / Math.max(scrollTransitionDistance, 1))
-            )
-            queueApply(progress)
-        }
-
-        refreshOffsets()
-        syncFromScroll()
-
-        window.addEventListener('scroll', syncFromScroll, { passive: true })
-
-        const ro = new ResizeObserver(() => {
-            refreshOffsets()
-            syncFromScroll()
-        })
-
-        animatableTracks.forEach((track) => ro.observe(track))
-
-        return () => {
-            if (rafId) window.cancelAnimationFrame(rafId)
-            window.removeEventListener('scroll', syncFromScroll)
-            ro.disconnect()
-            if (leftTrack) leftTrack.style.transform = ''
-            if (centerTrack) centerTrack.style.transform = ''
-        }
-    }, [hasTransition, leftStates.length, scrollTransitionDistance, states])
-
-    const handleBack = () => {
-        if (typeof window === 'undefined') return
-
-        if (onBack) {
-            onBack()
-            return
-        }
-
-        if (window.history.length > 1) {
-            window.history.back()
-            return
-        }
-
-        window.location.href = homeHref
-    }
 
     const brandContent = logo ?? <span className={styles.brandName}>{brandName}</span>
 
@@ -416,72 +266,19 @@ const NavHeader: React.FC<NavHeaderProps> = ({
                     </div>
                 )}
                 <div className={cx(styles.column, styles.left)}>
-                    <div className={styles.track} ref={leftTrackRef}>
-                        {leftStates.map((state, index) => (
-                            <div
-                                className={styles.slide}
-                                data-slide
-                                key={`left-${state}-${index}`}
-                            >
-                                {state === 'back' ? (
-                                    <button
-                                        type='button'
-                                        className={styles.iconButton}
-                                        onClick={handleBack}
-                                        aria-label={resolvedLabels.back}
-                                    >
-                                        <ArrowLeftIcon size={18} weight='bold' />
-                                    </button>
-                                ) : (
-                                    leftSlot
-                                )}
-                            </div>
-                        ))}
-                    </div>
+                    {leftSlot && <div className={styles.leftContent}>{leftSlot}</div>}
                 </div>
 
                 <div className={styles.centerColumn}>
                     <div className={styles.centerTrackWrapper}>
-                        <div className={styles.track} ref={centerTrackRef}>
-                            {states.map((state, index) => (
-                                <div
-                                    className={styles.slide}
-                                    data-slide
-                                    key={`center-${state}-${index}`}
-                                >
-                                    {state === 'home' && (
-                                        <a
-                                            className={styles.logotypeWrapper}
-                                            href={homeHref}
-                                            aria-label={resolvedLogoAriaLabel}
-                                        >
-                                            {brandContent}
-                                        </a>
-                                    )}
-
-                                    {state === 'level1' && (
-                                        <div className={styles.breadcrumb}>
-                                            <p className={styles.title}>
-                                                {pageTitle ?? secPageTitle}
-                                            </p>
-                                        </div>
-                                    )}
-
-                                    {state === 'level2' && (
-                                        <div className={styles.breadcrumb}>
-                                            {pageTitle && (
-                                                <>
-                                                    <p className={styles.title}>
-                                                        {pageTitle}
-                                                    </p>
-                                                    <span className={styles.slash}>/</span>
-                                                </>
-                                            )}
-                                            <p className={styles.title}>{secPageTitle}</p>
-                                        </div>
-                                    )}
-                                </div>
-                            ))}
+                        <div className={styles.slide}>
+                            <a
+                                className={styles.logotypeWrapper}
+                                href={homeHref}
+                                aria-label={resolvedLogoAriaLabel}
+                            >
+                                {brandContent}
+                            </a>
                         </div>
                     </div>
 

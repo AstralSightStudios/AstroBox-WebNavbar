@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react'
 import NavHeader, { type NavHeaderItem } from '../NavHeader'
 
 type Lang = 'zh-cn' | 'en'
-type ViewMode = 'home' | 'docs' | 'detail'
+type ViewMode = 'home' | 'downloads' | 'team'
 
 const NAV_LABELS: Record<Lang, Record<string, string>> = {
     'zh-cn': {
@@ -12,21 +12,20 @@ const NAV_LABELS: Record<Lang, Record<string, string>> = {
         team: '团队',
         menu: '菜单',
         close: '关闭',
-        back: '返回',
         language: '语言',
         heroTag: '可复用 React Navbar 组件',
         heroTitle: '本地联调 Demo',
         heroText:
-            '这个页面专门用来验证通用 navbar 的桌面导航、移动抽屉、插槽扩展和滚动过渡效果。',
-        primaryAction: '查看文档态',
-        secondaryAction: '查看详情态',
+            '这个页面专门用来验证通用 navbar 的桌面导航、移动抽屉、插槽扩展和激活态表现。',
+        primaryAction: '查看下载态',
+        secondaryAction: '查看团队态',
         rightAction: '开始接入',
         homeTitle: '首页态',
-        docsTitle: '文档中心',
-        detailTitle: '按钮交互与插槽扩展',
+        downloadsTitle: '下载态',
+        teamTitle: '团队态',
         sectionTitle: '滚动验证区',
         sectionText:
-            '向下滚动可以观察标题区切换，缩小窗口可以验证移动端抽屉菜单。',
+            '向下滚动可以验证吸顶效果，缩小窗口可以验证移动端抽屉菜单。',
         cardA: '外部传入 navItems',
         cardB: 'LanguageSwitcher 改成 leftSlot',
         cardC: 'Logo 改成可替换 slot',
@@ -34,8 +33,8 @@ const NAV_LABELS: Record<Lang, Record<string, string>> = {
         panelTitle: '状态切换',
         panelText: '这个控制区模拟你在原项目里不同页面下传入的 props。',
         panelHome: '首页',
-        panelDocs: '文档页',
-        panelDetail: '详情页'
+        panelDownloads: '下载页',
+        panelTeam: '团队页'
     },
     en: {
         downloads: 'Downloads',
@@ -44,21 +43,20 @@ const NAV_LABELS: Record<Lang, Record<string, string>> = {
         team: 'Team',
         menu: 'Menu',
         close: 'Close',
-        back: 'Back',
         language: 'Language',
         heroTag: 'Reusable React Navbar Component',
         heroTitle: 'Local Demo Page',
         heroText:
-            'This page is used to validate desktop nav visibility, mobile drawer behavior, slot customization, and scroll transitions.',
-        primaryAction: 'Open Docs State',
-        secondaryAction: 'Open Detail State',
+            'This page is used to validate desktop nav visibility, mobile drawer behavior, slot customization, and active states.',
+        primaryAction: 'Open Downloads State',
+        secondaryAction: 'Open Team State',
         rightAction: 'Start Integration',
         homeTitle: 'Home State',
-        docsTitle: 'Docs Center',
-        detailTitle: 'Actions and Slot Extensibility',
+        downloadsTitle: 'Downloads State',
+        teamTitle: 'Team State',
         sectionTitle: 'Scroll Validation Area',
         sectionText:
-            'Scroll down to observe title transitions and shrink the viewport to verify the mobile drawer.',
+            'Scroll down to verify the sticky navbar and shrink the viewport to verify the mobile drawer.',
         cardA: 'navItems passed from outside',
         cardB: 'LanguageSwitcher moved to leftSlot',
         cardC: 'Logo replaced with slot',
@@ -66,8 +64,8 @@ const NAV_LABELS: Record<Lang, Record<string, string>> = {
         panelTitle: 'State Switcher',
         panelText: 'This control area simulates props passed from different pages in your real project.',
         panelHome: 'Home',
-        panelDocs: 'Docs',
-        panelDetail: 'Detail'
+        panelDownloads: 'Downloads',
+        panelTeam: 'Team'
     }
 }
 
@@ -79,9 +77,9 @@ const DemoApp: React.FC = () => {
     const currentPath =
         viewMode === 'home'
             ? '/'
-            : viewMode === 'docs'
-                ? '/docs'
-                : '/docs/navbar/detail'
+            : viewMode === 'downloads'
+                ? '/downloads'
+                : '/team'
 
     const CREATOR_CONSOLE_LABEL = (
         <svg height="24" viewBox="0 0 1291 128" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -116,21 +114,15 @@ const DemoApp: React.FC = () => {
         [copy]
     )
 
-    const pageTitle = viewMode === 'home' ? undefined : copy.docsTitle
-    const secPageTitle = viewMode === 'detail' ? copy.detailTitle : undefined
-
     return (
         <div className='demo-shell'>
             <NavHeader
                 currentPath={currentPath}
-                pageTitle={pageTitle}
-                secPageTitle={secPageTitle}
                 homeHref='/'
                 brandName='AstroBox'
                 labels={{
                     menu: copy.menu,
-                    close: copy.close,
-                    back: copy.back
+                    close: copy.close
                 }}
                 logo={
                     <div className='demo-logo'>
@@ -170,14 +162,14 @@ const DemoApp: React.FC = () => {
                         <button
                             type='button'
                             className='demo-primaryButton'
-                            onClick={() => setViewMode('docs')}
+                            onClick={() => setViewMode('downloads')}
                         >
                             {copy.primaryAction}
                         </button>
                         <button
                             type='button'
                             className='demo-secondaryButton'
-                            onClick={() => setViewMode('detail')}
+                            onClick={() => setViewMode('team')}
                         >
                             {copy.secondaryAction}
                         </button>
@@ -202,18 +194,18 @@ const DemoApp: React.FC = () => {
                         <button
                             type='button'
                             className='demo-chip'
-                            data-active={viewMode === 'docs'}
-                            onClick={() => setViewMode('docs')}
+                            data-active={viewMode === 'downloads'}
+                            onClick={() => setViewMode('downloads')}
                         >
-                            {copy.panelDocs}
+                            {copy.panelDownloads}
                         </button>
                         <button
                             type='button'
                             className='demo-chip'
-                            data-active={viewMode === 'detail'}
-                            onClick={() => setViewMode('detail')}
+                            data-active={viewMode === 'team'}
+                            onClick={() => setViewMode('team')}
                         >
-                            {copy.panelDetail}
+                            {copy.panelTeam}
                         </button>
                     </div>
                 </section>

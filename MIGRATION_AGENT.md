@@ -70,7 +70,7 @@ In the original project, create a local adapter component that keeps the old cal
 
 This adapter SHOULD:
 
-- preserve old props like `lang`, `currentPath`, `pageTitle`, `secPageTitle`, `variant`, `showHeaderBlur`
+- preserve old props like `lang`, `currentPath`, `variant`, `showHeaderBlur`
 - move `LanguageSwitcher` into `leftSlot`
 - move the old logo into `logo`
 - convert old internal menu definitions into `navItems`
