@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import styles from './NavHeader.module.css'
-import { ArrowLeftIcon, OptionIcon, XIcon } from '@phosphor-icons/react'
+import { ArrowLeftIcon, DotsNineIcon, XIcon } from '@phosphor-icons/react'
 import { Drawer } from 'vaul'
 import BlurEffect from 'react-progressive-blur'
 
@@ -338,7 +338,6 @@ const NavHeader: React.FC<NavHeaderProps> = ({
                             open={menuOpen}
                             onOpenChange={setMenuOpen}
                             shouldScaleBackground
-                            disablePreventScroll={false}
                             direction='top'
                         >
                             <Drawer.Trigger asChild>
@@ -347,7 +346,7 @@ const NavHeader: React.FC<NavHeaderProps> = ({
                                     className={styles.iconButton}
                                     aria-label={resolvedLabels.menu}
                                 >
-                                    <OptionIcon size={18} weight='bold' />
+                                    <DotsNineIcon size={18} weight='bold' />
                                 </button>
                             </Drawer.Trigger>
 

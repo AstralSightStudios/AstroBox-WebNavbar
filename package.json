@@ -1,7 +1,7 @@
 {
-  "name": "astrobox-web-navbar",
-  "version": "0.1.0",
-  "description": "Reusable React navbar component extracted from AstroBox.",
+  "name": "@claralight-design/abweb-navbar",
+  "version": "0.1.1",
+  "description": "A react components for AstroBox websites.",
   "scripts": {
     "dev": "vite",
     "build": "vite build"

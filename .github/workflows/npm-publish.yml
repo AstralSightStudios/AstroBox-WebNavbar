@@ -1,0 +1,71 @@
+name: Publish to npm
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - package.json
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Detect version change
+        id: version
+        env:
+          BEFORE_SHA: ${{ github.event.before }}
+        run: |
+          CURRENT_VERSION="$(node -p "require('./package.json').version")"
+          PREVIOUS_VERSION=""
+
+          if [ "$BEFORE_SHA" != "0000000000000000000000000000000000000000" ]; then
+            PREVIOUS_VERSION="$(git show "$BEFORE_SHA:package.json" 2>/dev/null | node -p "const fs=require('fs'); const data=fs.readFileSync(0, 'utf8'); data ? JSON.parse(data).version ?? '' : ''" || true)"
+          fi
+
+          echo "current=$CURRENT_VERSION" >> "$GITHUB_OUTPUT"
+          echo "previous=$PREVIOUS_VERSION" >> "$GITHUB_OUTPUT"
+
+          if [ -n "$CURRENT_VERSION" ] && [ "$CURRENT_VERSION" != "$PREVIOUS_VERSION" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Setup pnpm
+        if: steps.version.outputs.changed == 'true'
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node.js
+        if: steps.version.outputs.changed == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+
+      - name: Install dependencies
+        if: steps.version.outputs.changed == 'true'
+        run: pnpm install --frozen-lockfile
+
+      - name: Build package
+        if: steps.version.outputs.changed == 'true'
+        run: pnpm build
+
+      - name: Publish package
+        if: steps.version.outputs.changed == 'true'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --access public --provenance
