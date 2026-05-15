@@ -1,0 +1,333 @@
+:root {
+    color-scheme: light dark;
+    font-family:
+        "SF Pro Display",
+        "PingFang SC",
+        "Helvetica Neue",
+        sans-serif;
+    --color-background: #ffffff;
+    --color-main-background: #f4f7fb;
+    --color-text: #132338;
+    --radius-root: 18px;
+    --font-family-serif: "Iowan Old Style", "Times New Roman", serif;
+    background: var(--color-main-background);
+    color: var(--color-text);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-background: #0d1520;
+        --color-main-background: #08111b;
+        --color-text: #f3f7fc;
+    }
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+    margin: 0;
+    min-height: 100%;
+}
+
+body {
+    background:
+        radial-gradient(circle at top, rgba(25, 114, 248, 0.16), transparent 32%),
+        var(--color-main-background);
+    color: var(--color-text);
+}
+
+button,
+a {
+    font: inherit;
+}
+
+.demo-shell {
+    min-height: 100vh;
+}
+
+.demo-main {
+    width: min(1120px, calc(100vw - 32px));
+    margin: 0 auto;
+    padding: 104px 0 72px;
+}
+
+.demo-hero,
+.demo-panel,
+.demo-card,
+.demo-block {
+    border: 1px solid color-mix(in srgb, var(--color-text) 10%, transparent);
+    background: color-mix(in srgb, var(--color-background) 82%, transparent);
+    box-shadow: 0 12px 32px rgba(8, 17, 27, 0.08);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.demo-hero {
+    padding: 32px;
+    border-radius: 28px;
+}
+
+.demo-tag {
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+    padding: 0 12px;
+    border-radius: 999px;
+    background: color-mix(in srgb, #1972f8 12%, transparent);
+    color: #1972f8;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.demo-title {
+    margin: 18px 0 0;
+    font-size: clamp(40px, 6vw, 68px);
+    line-height: 0.98;
+    letter-spacing: -0.04em;
+}
+
+.demo-text {
+    max-width: 720px;
+    margin: 18px 0 0;
+    font-size: 16px;
+    line-height: 1.7;
+    color: color-mix(in srgb, var(--color-text) 78%, transparent);
+}
+
+.demo-actions,
+.demo-panelActions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.demo-actions {
+    margin-top: 24px;
+}
+
+.demo-primaryButton,
+.demo-secondaryButton,
+.demo-ctaButton,
+.demo-chip,
+.demo-langButton {
+    border: 1px solid color-mix(in srgb, var(--color-text) 12%, transparent);
+    background: color-mix(in srgb, var(--color-background) 88%, transparent);
+    color: var(--color-text);
+    cursor: pointer;
+    transition:
+        transform 0.16s ease,
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.demo-primaryButton:hover,
+.demo-secondaryButton:hover,
+.demo-ctaButton:hover,
+.demo-chip:hover,
+.demo-langButton:hover {
+    transform: translateY(-1px);
+}
+
+.demo-primaryButton,
+.demo-secondaryButton,
+.demo-ctaButton {
+    min-height: 44px;
+    padding: 0 16px;
+    border-radius: 999px;
+}
+
+.demo-primaryButton {
+    background: #1972f8;
+    border-color: #1972f8;
+    color: #ffffff;
+}
+
+.demo-secondaryButton {
+    background: transparent;
+}
+
+.demo-ctaButton {
+    white-space: nowrap;
+}
+
+.demo-panel {
+    margin-top: 20px;
+    padding: 20px 22px;
+    border-radius: 22px;
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: center;
+}
+
+.demo-panelTitle {
+    margin: 0;
+    font-size: 20px;
+}
+
+.demo-panelText {
+    margin: 8px 0 0;
+    color: color-mix(in srgb, var(--color-text) 72%, transparent);
+    line-height: 1.6;
+}
+
+.demo-chip {
+    min-height: 40px;
+    padding: 0 14px;
+    border-radius: 999px;
+}
+
+.demo-chip[data-active='true'] {
+    background: color-mix(in srgb, #1972f8 18%, transparent);
+    border-color: color-mix(in srgb, #1972f8 40%, transparent);
+    color: #1972f8;
+}
+
+.demo-grid {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.demo-card {
+    padding: 22px;
+    border-radius: 24px;
+}
+
+.demo-card h3 {
+    margin: 0;
+    font-size: 22px;
+}
+
+.demo-card p {
+    margin: 12px 0 0;
+    line-height: 1.7;
+    color: color-mix(in srgb, var(--color-text) 74%, transparent);
+}
+
+.demo-scrollSection {
+    margin-top: 40px;
+}
+
+.demo-sectionTitle {
+    margin: 0;
+    font-size: 30px;
+}
+
+.demo-stack {
+    margin-top: 18px;
+    display: grid;
+    gap: 16px;
+}
+
+.demo-block {
+    padding: 22px;
+    border-radius: 24px;
+    display: grid;
+    grid-template-columns: 72px minmax(0, 1fr);
+    gap: 16px;
+    align-items: start;
+}
+
+.demo-block h3 {
+    margin: 0;
+    font-size: 20px;
+}
+
+.demo-block p {
+    margin: 10px 0 0;
+    line-height: 1.7;
+    color: color-mix(in srgb, var(--color-text) 74%, transparent);
+}
+
+.demo-blockIndex {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    border-radius: 16px;
+    background: color-mix(in srgb, #1972f8 14%, transparent);
+    color: #1972f8;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.demo-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.demo-logoMark {
+    width: 22px;
+    height: 22px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #1972f8;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.demo-logoText {
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.demo-langButton {
+    min-height: 40px;
+    padding: 0 12px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.demo-langLabel {
+    color: color-mix(in srgb, var(--color-text) 72%, transparent);
+    font-size: 13px;
+}
+
+.demo-langValue {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+}
+
+@media (max-width: 959px) {
+    .demo-main {
+        width: calc(100vw - 24px);
+        padding-top: 96px;
+    }
+
+    .demo-panel {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .demo-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .demo-block {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .demo-primaryButton,
+    .demo-secondaryButton,
+    .demo-ctaButton,
+    .demo-chip,
+    .demo-langButton {
+        transition: none;
+    }
+}

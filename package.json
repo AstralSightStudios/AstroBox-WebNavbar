@@ -1,0 +1,42 @@
+{
+  "name": "astrobox-web-navbar",
+  "version": "0.1.0",
+  "description": "Reusable React navbar component extracted from AstroBox.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "type": "module",
+  "main": "./index.ts",
+  "module": "./index.ts",
+  "types": "./index.ts",
+  "exports": {
+    ".": "./index.ts"
+  },
+  "files": [
+    "index.ts",
+    "NavHeader.tsx",
+    "NavHeader.module.css"
+  ],
+  "sideEffects": [
+    "./NavHeader.module.css"
+  ],
+  "peerDependencies": {
+    "react": "^18.2.0 || ^19.0.0",
+    "react-dom": "^18.2.0 || ^19.0.0"
+  },
+  "dependencies": {
+    "@phosphor-icons/react": "^2.1.7",
+    "react-progressive-blur": "^1.0.6",
+    "vaul": "^1.1.2"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.4",
+    "@types/react-dom": "^19.1.5",
+    "@vitejs/plugin-react": "^4.7.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "typescript": "^5.8.3",
+    "vite": "^7.3.3"
+  }
+}
