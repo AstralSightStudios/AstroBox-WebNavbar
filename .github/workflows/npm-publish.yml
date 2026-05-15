@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - package.json
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -43,12 +44,12 @@ jobs:
           fi
 
       - name: Setup Node.js
-        if: steps.version.outputs.changed == 'true'
+        if: steps.version.outputs.changed == 'true' || github.event_name == 'workflow_dispatch'
         uses: actions/setup-node@v4
         with:
           node-version: 20
           registry-url: https://registry.npmjs.org
 
       - name: Publish package
-        if: steps.version.outputs.changed == 'true'
+        if: steps.version.outputs.changed == 'true' || github.event_name == 'workflow_dispatch'
         run: npm publish --access public --provenance
