@@ -128,7 +128,9 @@ const renderMobileItem = (
     const content = (
         <>
             <span aria-hidden className={styles.menuItemMarker}>
-                /
+                <svg height="23" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2.21289 12H0.291016L5.73047 0H7.65234L2.21289 12Z" fill="white" fill-opacity="0.5" />
+                </svg>
             </span>
             <span className={styles.menuLabel}>{renderItemLabel(item)}</span>
         </>
@@ -325,37 +327,37 @@ const NavHeader: React.FC<NavHeaderProps> = ({
 
                     {hasDesktopNavItems && (
                         <>
-                        <span className={styles.dividingLine} />
-                        <nav
-                            className={styles.desktopNav}
-                            aria-label={resolvedLabels.menu}
-                        >
-                            <div className={styles.navList}>
-                                {desktopNavItems.map((item) => {
-                                    const key = item.id ?? item.href ?? item.ariaLabel
-                                    const isActive =
-                                        item.active ??
-                                        Boolean(
-                                            item.href &&
-                                            !item.external &&
-                                            isMenuItemActive(
-                                                currentPath,
-                                                item.matchPath ?? item.href
+                            <span className={styles.dividingLine} />
+                            <nav
+                                className={styles.desktopNav}
+                                aria-label={resolvedLabels.menu}
+                            >
+                                <div className={styles.navList}>
+                                    {desktopNavItems.map((item) => {
+                                        const key = item.id ?? item.href ?? item.ariaLabel
+                                        const isActive =
+                                            item.active ??
+                                            Boolean(
+                                                item.href &&
+                                                !item.external &&
+                                                isMenuItemActive(
+                                                    currentPath,
+                                                    item.matchPath ?? item.href
+                                                )
                                             )
-                                        )
 
-                                    return (
-                                        <div className={styles.navItem} key={key}>
-                                            {renderDesktopItem(
-                                                item,
-                                                styles.navLink,
-                                                isActive
-                                            )}
-                                        </div>
-                                    )
-                                })}
-                            </div>
-                        </nav>
+                                        return (
+                                            <div className={styles.navItem} key={key}>
+                                                {renderDesktopItem(
+                                                    item,
+                                                    styles.navLink,
+                                                    isActive
+                                                )}
+                                            </div>
+                                        )
+                                    })}
+                                </div>
+                            </nav>
                         </>
                     )}
                 </div>

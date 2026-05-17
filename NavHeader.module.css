@@ -335,7 +335,7 @@
     justify-content: center;
     min-height: 72px;
     height: 72px;
-    padding: 11px 18px 11px 16px;
+    padding: 11px 28px 11px 0px;
     border: none;
     border-radius: calc(var(--radius-root) * 1.55);
     background: transparent;
@@ -344,7 +344,7 @@
     box-sizing: border-box;
     gap: 12px;
     user-select: none;
-    transition: background 0.2s ease-out, opacity 0.2s ease, transform 0.15s ease;
+    transition: background 0.2s ease-out, opacity 0.2s ease, transform 0.15s ease, padding 0.2s ease-in-out;
     font-size: 30px;
     font-weight: 600;
     cursor: pointer;
@@ -360,6 +360,7 @@
 
 .menuLink:hover {
     color: var(--color-text);
+    padding: 11px 11px 11px 11px;
 }
 
 .menuItemMarker {
