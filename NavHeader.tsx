@@ -30,6 +30,8 @@ export type NavHeaderProps = {
     variant?: 'default' | 'docs' | (string & {})
     showHeaderBlur?: boolean
     navItems?: NavHeaderItem[]
+    showMobileMenuButton?: boolean
+    mobileMenuSlot?: React.ReactNode
     leftPadding?: number | string
     leftSlot?: React.ReactNode
     leftSlotDesktop?: React.ReactNode
@@ -178,6 +180,8 @@ const NavHeader: React.FC<NavHeaderProps> = ({
     variant = 'default',
     showHeaderBlur = true,
     navItems = [],
+    showMobileMenuButton = true,
+    mobileMenuSlot,
     leftPadding = 0,
     leftSlot,
     leftSlotDesktop,
@@ -196,6 +200,10 @@ const NavHeader: React.FC<NavHeaderProps> = ({
     const mobileNavItems = navItems.filter((item) => !item.hideInMobileMenu)
     const hasDesktopNavItems = desktopNavItems.length > 0
     const hasMobileNavItems = mobileNavItems.length > 0
+    const shouldShowMobileMenuButton =
+        showMobileMenuButton && hasMobileNavItems
+    const shouldShowMobileMenuSlot =
+        !showMobileMenuButton && mobileMenuSlot !== undefined
     const resolvedLogoAriaLabel = logoAriaLabel ?? brandName
     const resolvedLeftPadding =
         typeof leftPadding === 'number' ? `${leftPadding}px` : leftPadding
@@ -219,7 +227,7 @@ const NavHeader: React.FC<NavHeaderProps> = ({
                     } as React.CSSProperties
                 }
             >
-                {hasMobileNavItems && (
+                {shouldShowMobileMenuButton && (
                     <div className={styles.mobileMenu}>
                         <Drawer.Root
                             open={menuOpen}
@@ -312,6 +320,11 @@ const NavHeader: React.FC<NavHeaderProps> = ({
                                 </Drawer.Content>
                             </Drawer.Portal>
                         </Drawer.Root>
+                    </div>
+                )}
+                {shouldShowMobileMenuSlot && (
+                    <div className={styles.mobileMenu}>
+                        {mobileMenuSlot}
                     </div>
                 )}
                 <div className={cx(styles.column, styles.left)}>
