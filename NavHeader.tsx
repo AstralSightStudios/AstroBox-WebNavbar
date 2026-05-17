@@ -15,6 +15,7 @@ export type NavHeaderItem = {
     ariaLabel: string
     href?: string
     external?: boolean
+    hideInMobileMenu?: boolean
     active?: boolean
     matchPath?: string
     onClick?: (
@@ -29,6 +30,7 @@ export type NavHeaderProps = {
     variant?: 'default' | 'docs' | (string & {})
     showHeaderBlur?: boolean
     navItems?: NavHeaderItem[]
+    leftPadding?: number | string
     leftSlot?: React.ReactNode
     logo?: React.ReactNode
     brandName?: string
@@ -94,6 +96,14 @@ const renderDesktopItem = (
         )
     }
 
+    if (!item.onClick) {
+        return (
+            <div className={styles.navCustomItem} aria-label={item.ariaLabel}>
+                {renderItemLabel(item)}
+            </div>
+        )
+    }
+
     return (
         <button
             type='button'
@@ -139,6 +149,14 @@ const renderMobileItem = (
         )
     }
 
+    if (!item.onClick) {
+        return (
+            <div className={styles.menuCustomItem} aria-label={item.ariaLabel}>
+                {renderItemLabel(item)}
+            </div>
+        )
+    }
+
     return (
         <button
             type='button'
@@ -156,6 +174,7 @@ const NavHeader: React.FC<NavHeaderProps> = ({
     variant = 'default',
     showHeaderBlur = true,
     navItems = [],
+    leftPadding = 0,
     leftSlot,
     logo,
     brandName = 'Brand',
@@ -167,8 +186,13 @@ const NavHeader: React.FC<NavHeaderProps> = ({
     const [menuOpen, setMenuOpen] = useState(false)
 
     const resolvedLabels = { ...DEFAULT_LABELS, ...labels }
-    const hasNavItems = navItems.length > 0
+    const desktopNavItems = navItems
+    const mobileNavItems = navItems.filter((item) => !item.hideInMobileMenu)
+    const hasDesktopNavItems = desktopNavItems.length > 0
+    const hasMobileNavItems = mobileNavItems.length > 0
     const resolvedLogoAriaLabel = logoAriaLabel ?? brandName
+    const resolvedLeftPadding =
+        typeof leftPadding === 'number' ? `${leftPadding}px` : leftPadding
 
     const brandContent = logo ?? <span className={styles.brandName}>{brandName}</span>
 
@@ -179,8 +203,15 @@ const NavHeader: React.FC<NavHeaderProps> = ({
             data-variant={variant}
         >
             {showHeaderBlur && <BlurEffect className={styles.blurEffect} position="top" intensity={100} aria-hidden />}
-            <header className={styles.inner}>
-                {hasNavItems && (
+            <header
+                className={styles.inner}
+                style={
+                    {
+                        '--nav-header-left-padding': resolvedLeftPadding,
+                    } as React.CSSProperties
+                }
+            >
+                {hasMobileNavItems && (
                     <div className={styles.mobileMenu}>
                         <Drawer.Root
                             open={menuOpen}
@@ -224,7 +255,7 @@ const NavHeader: React.FC<NavHeaderProps> = ({
                                             className={styles.menuNav}
                                             aria-label={resolvedLabels.menu}
                                         >
-                                            {navItems.map((item) => {
+                                            {mobileNavItems.map((item) => {
                                                 const key =
                                                     item.id ??
                                                     item.href ??
@@ -241,14 +272,26 @@ const NavHeader: React.FC<NavHeaderProps> = ({
                                                         )
                                                     )
 
+                                                if (item.href || item.onClick) {
+                                                    return (
+                                                        <Drawer.Close asChild key={key}>
+                                                            {renderMobileItem(
+                                                                item,
+                                                                styles.menuLink,
+                                                                isActive
+                                                            )}
+                                                        </Drawer.Close>
+                                                    )
+                                                }
+
                                                 return (
-                                                    <Drawer.Close asChild key={key}>
+                                                    <div key={key}>
                                                         {renderMobileItem(
                                                             item,
                                                             styles.menuLink,
                                                             isActive
                                                         )}
-                                                    </Drawer.Close>
+                                                    </div>
                                                 )
                                             })}
                                         </nav>
@@ -280,7 +323,7 @@ const NavHeader: React.FC<NavHeaderProps> = ({
                         </div>
                     </div>
 
-                    {hasNavItems && (
+                    {hasDesktopNavItems && (
                         <>
                         <span className={styles.dividingLine} />
                         <nav
@@ -288,7 +331,7 @@ const NavHeader: React.FC<NavHeaderProps> = ({
                             aria-label={resolvedLabels.menu}
                         >
                             <div className={styles.navList}>
-                                {navItems.map((item) => {
+                                {desktopNavItems.map((item) => {
                                     const key = item.id ?? item.href ?? item.ariaLabel
                                     const isActive =
                                         item.active ??

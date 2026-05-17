@@ -29,7 +29,7 @@
     grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: center;
     overflow: hidden;
-    padding: 3px 6px 6px;
+    padding: 3px 6px 6px calc(6px + var(--nav-header-left-padding, 0px));
     border-radius: 48px;
     gap: 12px;
     transform: translateY(0);
@@ -185,6 +185,12 @@
     display: inline-flex;
 }
 
+.navCustomItem {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+}
+
 .navLink {
     corner-shape: unset;
     min-height: 40px;
@@ -235,7 +241,7 @@
     font-weight: 600;
 }
 
-.desktopLabel svg {
+.desktopLabel svg.logotype, .desktopLabel :global(svg.logotype) {
     max-height: 12px;
 }
 
@@ -343,6 +349,13 @@
     font-weight: 600;
     cursor: pointer;
     font-family: inherit;
+}
+
+.menuCustomItem {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .menuLink:hover {
