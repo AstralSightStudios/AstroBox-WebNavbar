@@ -10,6 +10,12 @@ const DemoSearchToggle: React.FC<{ label: string }> = ({ label }) => (
     </button>
 )
 
+const DemoMobileLangButton: React.FC<{ value: string }> = ({ value }) => (
+    <button type='button' className='demo-mobileLangButton' aria-label={value}>
+        {value}
+    </button>
+)
+
 const NAV_LABELS: Record<Lang, Record<string, string>> = {
     'zh-cn': {
         downloads: '下载',
@@ -148,7 +154,7 @@ const DemoApp: React.FC = () => {
                         <span className='demo-logoText'>AstroBox</span>
                     </div>
                 }
-                leftSlot={
+                leftSlotDesktop={
                     <button
                         type='button'
                         className='demo-langButton'
@@ -161,6 +167,9 @@ const DemoApp: React.FC = () => {
                         <span className='demo-langLabel'>{copy.language}</span>
                         <span className='demo-langValue'>{lang.toUpperCase()}</span>
                     </button>
+                }
+                leftSlotMobile={
+                    <DemoMobileLangButton value={lang.toUpperCase()} />
                 }
                 leftPadding={12}
                 navItems={navItems}

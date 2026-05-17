@@ -208,6 +208,28 @@ a {
     transform: translateY(-1px);
 }
 
+.demo-mobileLangButton {
+    min-width: 40px;
+    min-height: 40px;
+    padding: 0 10px;
+    border: 1px solid color-mix(in srgb, var(--color-text) 12%, transparent);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--color-background) 88%, transparent);
+    color: var(--color-text);
+    cursor: pointer;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    transition:
+        transform 0.16s ease,
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.demo-mobileLangButton:hover {
+    transform: translateY(-1px);
+}
+
 .demo-grid {
     margin-top: 20px;
     display: grid;

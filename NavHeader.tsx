@@ -32,6 +32,8 @@ export type NavHeaderProps = {
     navItems?: NavHeaderItem[]
     leftPadding?: number | string
     leftSlot?: React.ReactNode
+    leftSlotDesktop?: React.ReactNode
+    leftSlotMobile?: React.ReactNode
     logo?: React.ReactNode
     brandName?: string
     homeHref?: string
@@ -178,6 +180,8 @@ const NavHeader: React.FC<NavHeaderProps> = ({
     navItems = [],
     leftPadding = 0,
     leftSlot,
+    leftSlotDesktop,
+    leftSlotMobile,
     logo,
     brandName = 'Brand',
     homeHref = '/',
@@ -195,6 +199,8 @@ const NavHeader: React.FC<NavHeaderProps> = ({
     const resolvedLogoAriaLabel = logoAriaLabel ?? brandName
     const resolvedLeftPadding =
         typeof leftPadding === 'number' ? `${leftPadding}px` : leftPadding
+    const hasResponsiveLeftSlot =
+        leftSlotDesktop !== undefined || leftSlotMobile !== undefined
 
     const brandContent = logo ?? <span className={styles.brandName}>{brandName}</span>
 
@@ -309,7 +315,32 @@ const NavHeader: React.FC<NavHeaderProps> = ({
                     </div>
                 )}
                 <div className={cx(styles.column, styles.left)}>
-                    {leftSlot && <div className={styles.leftContent}>{leftSlot}</div>}
+                    {hasResponsiveLeftSlot ? (
+                        <>
+                            {leftSlotDesktop !== undefined && (
+                                <div
+                                    className={cx(
+                                        styles.leftContent,
+                                        styles.leftContentDesktop
+                                    )}
+                                >
+                                    {leftSlotDesktop}
+                                </div>
+                            )}
+                            {leftSlotMobile !== undefined && (
+                                <div
+                                    className={cx(
+                                        styles.leftContent,
+                                        styles.leftContentMobile
+                                    )}
+                                >
+                                    {leftSlotMobile}
+                                </div>
+                            )}
+                        </>
+                    ) : (
+                        leftSlot && <div className={styles.leftContent}>{leftSlot}</div>
+                    )}
                 </div>
 
                 <div className={styles.centerColumn}>

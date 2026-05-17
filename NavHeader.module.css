@@ -101,6 +101,17 @@
     min-width: 0;
 }
 
+.leftContentDesktop,
+.leftContentMobile {
+    display: inline-flex;
+    align-items: center;
+    min-width: 0;
+}
+
+.leftContentMobile {
+    display: none;
+}
+
 .brandName {
     color: var(--color-text);
     font-size: 16px;
@@ -441,6 +452,14 @@
 
     .dividingLine {
         display: none;
+    }
+
+    .leftContentDesktop {
+        display: none;
+    }
+
+    .leftContentMobile {
+        display: inline-flex;
     }
 }
 
