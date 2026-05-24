@@ -26,7 +26,7 @@
     max-width: calc(1200px + 32px);
     position: relative;
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-columns: auto minmax(0, 1fr);
     align-items: center;
     overflow: hidden;
     padding: 3px 6px 6px calc(6px + var(--nav-header-left-padding, 0px));
@@ -41,8 +41,6 @@
     corner-shape: unset;
     will-change: transform;
     box-sizing: border-box;
-
-    --backdrop-filter: blur(12px) saturate(1.05);
 }
 
 .blurEffect {
@@ -216,33 +214,37 @@
     transition:
         background 0.2s ease,
         color 0.2s ease,
-        transform 0.15s ease;
+        transform 0.15s ease,
+        backdrop-filter 0.2s ease-in-out;
     white-space: nowrap;
     font-family: inherit;
     font-size: 15px;
     font-weight: 600;
     color: var(--color-text);
     opacity: 0.7;
+    backdrop-filter: var(--backdrop-filter);
+    --backdrop-filter: blur(0) saturate(1);
 }
 
 .navLink:hover,
 .logotypeWrapper:hover {
     background: color-mix(in srgb, var(--color-text) 8%, transparent);
     opacity: 1;
-    backdrop-filter: var(--backdrop-filter);
+    --backdrop-filter: blur(8px) saturate(1.1);
 }
 
 .navLink:active,
 .logotypeWrapper:active {
     opacity: 0.55;
     transform: scale(0.96);
+    --backdrop-filter: blur(5px) saturate(1.05);
 }
 
 .navLinkActive {
     color: var(--color-text);
     background: color-mix(in srgb, var(--color-text) 10%, transparent);
     opacity: 0.8;
-    backdrop-filter: var(--backdrop-filter);
+    --backdrop-filter: blur(10px) saturate(1.05);
 }
 
 .desktopLabel {
