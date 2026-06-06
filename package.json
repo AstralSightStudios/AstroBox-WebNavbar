@@ -26,6 +26,7 @@
     "react-dom": "^18.2.0 || ^19.0.0"
   },
   "dependencies": {
+    "@claralight-design/smooth-capsule": "^0.1.1",
     "@phosphor-icons/react": "^2.1.7",
     "react-progressive-blur": "^1.0.6",
     "vaul": "^1.1.2"

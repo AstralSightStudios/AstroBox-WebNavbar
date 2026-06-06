@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@claralight-design/smooth-capsule':
+        specifier: ^0.1.1
+        version: 0.1.1(react@19.2.6)
       '@phosphor-icons/react':
         specifier: ^2.1.7
         version: 2.1.10(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
@@ -124,6 +127,11 @@ packages:
   '@babel/types@7.29.0':
     resolution: {integrity: sha512-LwdZHpScM4Qz8Xw2iKSzS+cfglZzJGvofQICy7W7v4caru4EaAmyUuO6BGrbyQ2mYV11W0U8j5mBhd14dd3B0A==}
     engines: {node: '>=6.9.0'}
+
+  '@claralight-design/smooth-capsule@0.1.1':
+    resolution: {integrity: sha512-3qWua1kUaC0khVU1LFnNkp4Kuls6SYESCfw8Holq5ybA6v//WAPDOwirga3mOLh/kWbwDkRf1/80R6iW0o6/MA==}
+    peerDependencies:
+      react: '>=18'
 
   '@esbuild/aix-ppc64@0.27.7':
     resolution: {integrity: sha512-EKX3Qwmhz1eMdEJokhALr0YiD0lhQNwDqkPYyPhiSwKrh7/4KRjQc04sZ8db+5DVVnZ1LmbNDI1uAMPEUBnQPg==}
@@ -1017,6 +1025,10 @@ snapshots:
     dependencies:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.28.5
+
+  '@claralight-design/smooth-capsule@0.1.1(react@19.2.6)':
+    dependencies:
+      react: 19.2.6
 
   '@esbuild/aix-ppc64@0.27.7':
     optional: true

@@ -194,6 +194,37 @@
     display: inline-flex;
 }
 
+.navCapsule {
+    background: transparent;
+    transition:
+        background 0.2s ease,
+        transform 0.15s ease,
+        backdrop-filter 0.2s ease-in-out;
+}
+
+.navCapsule :global(.smooth-capsule__content) {
+    height: 100%;
+}
+
+.navCapsule:not(:hover):not(:active):not(.navCapsuleActive),
+.navCapsule:not(:hover):not(:active):not(.navCapsuleActive) * {
+    -webkit-backdrop-filter: blur(0);
+    backdrop-filter: blur(0);
+}
+
+.navCapsule:hover {
+    background: color-mix(in srgb, var(--color-text) 8%, transparent);
+}
+
+.navCapsule:active {
+    background: transparent;
+    transform: scale(0.96);
+}
+
+.navCapsuleActive {
+    background: color-mix(in srgb, var(--color-text) 14%, transparent);
+}
+
 .navCustomItem {
     display: inline-flex;
     align-items: center;
@@ -211,40 +242,31 @@
     align-items: center;
     justify-content: center;
     text-decoration: none;
-    transition:
-        background 0.2s ease,
-        color 0.2s ease,
-        transform 0.15s ease,
-        backdrop-filter 0.2s ease-in-out;
+    transition: color 0.2s ease;
     white-space: nowrap;
     font-family: inherit;
     font-size: 15px;
     font-weight: 600;
     color: var(--color-text);
     opacity: 0.7;
-    backdrop-filter: var(--backdrop-filter);
-    --backdrop-filter: blur(0) saturate(1);
 }
 
-.navLink:hover,
 .logotypeWrapper:hover {
     background: color-mix(in srgb, var(--color-text) 8%, transparent);
-    opacity: 1;
-    --backdrop-filter: blur(8px) saturate(1.1);
 }
 
-.navLink:active,
 .logotypeWrapper:active {
     opacity: 0.55;
     transform: scale(0.96);
-    --backdrop-filter: blur(5px) saturate(1.05);
+}
+
+.navCapsule:hover .navLink {
+    opacity: 1;
 }
 
 .navLinkActive {
     color: var(--color-text);
-    background: color-mix(in srgb, var(--color-text) 10%, transparent);
     opacity: 0.8;
-    --backdrop-filter: blur(10px) saturate(1.05);
 }
 
 .desktopLabel {
@@ -470,6 +492,7 @@
     .inner,
     .iconButton,
     .logotypeWrapper,
+    .navCapsule,
     .navLink,
     .menuLink,
     .menuItemMarker {

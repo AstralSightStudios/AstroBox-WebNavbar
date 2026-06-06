@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import styles from './NavHeader.module.css'
 import { DotsNineIcon, XIcon } from '@phosphor-icons/react'
 import { Drawer } from 'vaul'
+import { SmoothCapsule } from '@claralight-design/smooth-capsule'
 import BlurEffect from 'react-progressive-blur'
 
 export type NavHeaderLabels = {
@@ -81,22 +82,32 @@ const renderDesktopItem = (
     className: string,
     isActive: boolean
 ) => {
+    const capsuleClassName = isActive
+        ? `${styles.navCapsule} ${styles.navCapsuleActive}`
+        : styles.navCapsule
     const resolvedClassName = isActive
         ? `${className} ${styles.navLinkActive}`
         : className
 
     if (item.href) {
         return (
-            <a
-                href={item.href}
-                className={resolvedClassName}
-                aria-label={item.ariaLabel}
-                onClick={item.onClick}
-                target={item.external ? item.target ?? '_blank' : item.target}
-                rel={item.external ? item.rel ?? 'noreferrer' : item.rel}
+            <SmoothCapsule
+                capHeight={40}
+                tint='transparent'
+                highlight={isActive}
+                className={capsuleClassName}
             >
-                <span className={styles.desktopLabel}>{renderItemLabel(item)}</span>
-            </a>
+                <a
+                    href={item.href}
+                    className={resolvedClassName}
+                    aria-label={item.ariaLabel}
+                    onClick={item.onClick}
+                    target={item.external ? item.target ?? '_blank' : item.target}
+                    rel={item.external ? item.rel ?? 'noreferrer' : item.rel}
+                >
+                    <span className={styles.desktopLabel}>{renderItemLabel(item)}</span>
+                </a>
+            </SmoothCapsule>
         )
     }
 
@@ -109,14 +120,21 @@ const renderDesktopItem = (
     }
 
     return (
-        <button
-            type='button'
-            className={resolvedClassName}
-            aria-label={item.ariaLabel}
-            onClick={item.onClick}
+        <SmoothCapsule
+            capHeight={40}
+            tint='transparent'
+            highlight={isActive}
+            className={capsuleClassName}
         >
-            <span className={styles.desktopLabel}>{renderItemLabel(item)}</span>
-        </button>
+            <button
+                type='button'
+                className={resolvedClassName}
+                aria-label={item.ariaLabel}
+                onClick={item.onClick}
+            >
+                <span className={styles.desktopLabel}>{renderItemLabel(item)}</span>
+            </button>
+        </SmoothCapsule>
     )
 }
 
